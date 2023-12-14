@@ -36,10 +36,10 @@ def get_peaklist(projectdir,valmin,valmax,lower_bound,upper_bound):
 
 		while len(listofpeaks)<lower_bound:
 			print("Number of peaks found: "+str(len(listofpeaks)))
-			percofmax=percofmax-0.1
+			percofmin=percofmin-0.1
 			print('Not enough peaks found.')
 			gc.collect()
-			print('Decreasing to: '+str(percofmax))
+			print('Decreasing to: '+str(percofmin))
 
 			peaks=np.logical_and(Iall<percofmax*peaksmax, Iall>percofmin*peaksmax)
 			peaks.shape
@@ -48,9 +48,9 @@ def get_peaklist(projectdir,valmin,valmax,lower_bound,upper_bound):
 		if len(listofpeaks)>upper_bound:
 			while len(listofpeaks)>upper_bound:
 				print("Number of peaks found: "+str(len(listofpeaks)))
-				percofmax=percofmax+0.02
+				percofmin=percofmin+0.02
 				print('Too many peaks found.')
-				print('Increasing to: '+str(percofmax))
+				print('Increasing to: '+str(percofmin))
 
 				peaks=np.logical_and(Iall<percofmax*peaksmax, Iall>percofmin*peaksmax)
 				peaks.shape
@@ -58,10 +58,10 @@ def get_peaklist(projectdir,valmin,valmax,lower_bound,upper_bound):
 			if len(listofpeaks)<lower_bound:
 				while len(listofpeaks)<lower_bound:
 					print("Number of peaks found: "+str(len(listofpeaks)))
-					percofmax=percofmax-0.01
+					percofmin=percofmin-0.01
 					print('Not enough peaks found.')
 					gc.collect()
-					print('Decreasing to: '+str(percofmax))
+					print('Decreasing to: '+str(percofmin))
 
 					peaks=np.logical_and(Iall<percofmax*peaksmax, Iall>percofmin*peaksmax)
 					peaks.shape
@@ -97,10 +97,10 @@ def get_peaklist(projectdir,valmin,valmax,lower_bound,upper_bound):
 
 		while len(listofpeaks)<lower_bound:
 			print("Number of peaks found: "+str(len(listofpeaks)))
-			percofmax=percofmax-0.1
+			percofmin=percofmin-0.1
 			print('Not enough peaks found.')
 			gc.collect()
-			print('Decreasing to: '+str(percofmax))
+			print('Decreasing to: '+str(percofmin))
 
 			peaks=Iall>percofmin*peaksmax
 			peaks.shape
@@ -109,9 +109,9 @@ def get_peaklist(projectdir,valmin,valmax,lower_bound,upper_bound):
 		if len(listofpeaks)>upper_bound:
 			while len(listofpeaks)>upper_bound:
 				print("Number of peaks found: "+str(len(listofpeaks)))
-				percofmax=percofmax+0.02
+				percofmin=percofmin+0.02
 				print('Too many peaks found.')
-				print('Increasing to: '+str(percofmax))
+				print('Increasing to: '+str(percofmin))
 
 				peaks=Iall>percofmin*peaksmax
 				peaks.shape
@@ -119,10 +119,10 @@ def get_peaklist(projectdir,valmin,valmax,lower_bound,upper_bound):
 			if len(listofpeaks)<lower_bound:
 				while len(listofpeaks)<lower_bound:
 					print("Number of peaks found: "+str(len(listofpeaks)))
-					percofmax=percofmax-0.01
+					percofmin=percofmin-0.01
 					print('Not enough peaks found.')
 					gc.collect()
-					print('Decreasing to: '+str(percofmax))
+					print('Decreasing to: '+str(percofmin))
 
 					peaks=Iall>percofmin*peaksmax
 					peaks.shape
