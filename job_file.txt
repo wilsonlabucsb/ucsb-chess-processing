@@ -1,2 +1,4 @@
-python M:\pokharel-3700-a\codebase\tkinter_chess\Pil6M_HKLConv_3D_2022_3rot.py L:/pokharel-3700-a/PrCd3P3/300/ L:/pokharel-3700-a/PrCd3P3/300/ 5.1 0.01 5.1 0.01 9.1 0.02 [RUNNING] [RUNNING]
-python M:\pokharel-3700-a\codebase\tkinter_chess\Pil6M_HKLConv_3D_2022_3rot.py K:/pokharel-3470-a/PrCd3P3/BRO7/75/ K:/pokharel-3470-a/PrCd3P3/BRO7/15/ 5.1 0.01 5.1 0.01 9.1 0.02
+python M:\pokharel-3700-a\codebase\tkinter_chess\Pil6M_HKLConv_3D_2022_3rot.py L:/pokharel-3700-a/PrCd3P3/300/ L:/pokharel-3700-a/PrCd3P3/300/ 5.1 0.01 5.1 0.01 9.1 0.02 [RUNNING] [COMPLETED]
+python M:\pokharel-3700-a\codebase\tkinter_chess\Pil6M_HKLConv_3D_2022_3rot.py K:/pokharel-3470-a/PrCd3P3/BRO7/75/ K:/pokharel-3470-a/PrCd3P3/BRO7/15/ 5.1 0.01 5.1 0.01 9.1 0.02 [COMPLETED]
+python M:\pokharel-3700-a\codebase\tkinter_chess\Pil6M_HKLConv_3D_2022_3rot.py K:/pokharel-3470-a/LaCd3P3/BRO1/15/ K:/pokharel-3470-a/LaCd3P3/BRO1/300/ 5.1 0.01 5.1 0.01 9.1 0.02 [COMPLETED]
+python M:\pokharel-3700-a\codebase\tkinter_chess\Pil6M_HKLConv_3D_2022_3rot.py K:/pokharel-3470-a/LaCd3P3/BRO1/15/ K:/pokharel-3470-a/LaCd3P3/BRO1/15/ 5.1 0.01 5.1 0.01 9.1 0.02 [COMPLETED]

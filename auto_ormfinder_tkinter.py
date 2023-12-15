@@ -15,12 +15,17 @@ from os.path import exists
 import gc
 import tkinter as tk
 from tkinter import filedialog, ttk, messagebox
+from PIL import Image, ImageTk  # Make sure to have the Pillow library installed
+
+
 
 def get_peaklist(projectdir,valmin,valmax,lower_bound,upper_bound):
 	if float(valmax)!=1.0:
 		projdir=projectdir
 		percofmax=float(valmax)
 		percofmin=float(valmin)
+		lower_bound=float(lower_bound)
+		upper_bound=float(upper_bound)
 		stack_file = sorted([f for f in os.listdir(projectdir) if f.startswith("stack")])[0]
 		print("Loading stack...")
 		stack=nxload(projectdir+stack_file)
@@ -40,32 +45,32 @@ def get_peaklist(projectdir,valmin,valmax,lower_bound,upper_bound):
 			print('Not enough peaks found.')
 			gc.collect()
 			print('Decreasing to: '+str(percofmin))
-
+			print("Finding peaks...")
 			peaks=np.logical_and(Iall<percofmax*peaksmax, Iall>percofmin*peaksmax)
 			peaks.shape
 			listofpeaks=np.asarray(np.where(peaks)).T
-		#print(len(listofpeaks))
+			#print(len(listofpeaks))
 		if len(listofpeaks)>upper_bound:
 			while len(listofpeaks)>upper_bound:
 				print("Number of peaks found: "+str(len(listofpeaks)))
 				percofmin=percofmin+0.02
 				print('Too many peaks found.')
 				print('Increasing to: '+str(percofmin))
-
+				print("Finding peaks...")
 				peaks=np.logical_and(Iall<percofmax*peaksmax, Iall>percofmin*peaksmax)
 				peaks.shape
 				listofpeaks=np.asarray(np.where(peaks)).T
 			if len(listofpeaks)<lower_bound:
-				while len(listofpeaks)<lower_bound:
-					print("Number of peaks found: "+str(len(listofpeaks)))
-					percofmin=percofmin-0.01
-					print('Not enough peaks found.')
-					gc.collect()
-					print('Decreasing to: '+str(percofmin))
-
-					peaks=np.logical_and(Iall<percofmax*peaksmax, Iall>percofmin*peaksmax)
-					peaks.shape
-					listofpeaks=np.asarray(np.where(peaks)).T
+					while len(listofpeaks)<lower_bound:
+						print("Number of peaks found: "+str(len(listofpeaks)))
+						percofmin=percofmin-0.01
+						print('Not enough peaks found.')
+						gc.collect()
+						print('Decreasing to: '+str(percofmin))
+						print("Finding peaks...")
+						peaks=np.logical_and(Iall<percofmax*peaksmax, Iall>percofmin*peaksmax)
+						peaks.shape
+						listofpeaks=np.asarray(np.where(peaks)).T
 		print(len(listofpeaks))
 
 
@@ -90,10 +95,15 @@ def get_peaklist(projectdir,valmin,valmax,lower_bound,upper_bound):
 		print("Stack loaded.")
 		peaksmax=np.max(Iall)
 		print("Max intensity is ",peaksmax)
+		print("Percent Min is ",percofmin)
+		print("Percent Max is ",percofmax)
+		print("Min # peaks is ",lower_bound)
+		print("Max # peaks is ",upper_bound)
 		print("Finding peaks...")
 		peaks=Iall>percofmin*peaksmax
 		peaks.shape
 		listofpeaks=np.asarray(np.where(peaks)).T
+		print(listofpeaks)
 
 		while len(listofpeaks)<lower_bound:
 			print("Number of peaks found: "+str(len(listofpeaks)))
@@ -101,11 +111,16 @@ def get_peaklist(projectdir,valmin,valmax,lower_bound,upper_bound):
 			print('Not enough peaks found.')
 			gc.collect()
 			print('Decreasing to: '+str(percofmin))
-
+			print("Max intensity is ",peaksmax)
+			print("Percent Min is ",percofmin)
+			print("Percent Max is ",percofmax)
+			print("Min # peaks is ",lower_bound)
+			print("Max # peaks is ",upper_bound)
+			print("Finding peaks...")
 			peaks=Iall>percofmin*peaksmax
 			peaks.shape
 			listofpeaks=np.asarray(np.where(peaks)).T
-		#print(len(listofpeaks))
+			print(listofpeaks)
 		if len(listofpeaks)>upper_bound:
 			while len(listofpeaks)>upper_bound:
 				print("Number of peaks found: "+str(len(listofpeaks)))
@@ -501,6 +516,43 @@ def orient():
     # Display confirmation message
     messagebox.showinfo("Confirmation", "Finished solving orientation matrix!")
 
+# Function to refresh the image
+def refresh_image():
+    image_file_path = orm_folder.get() + "histogram.png"
+    img = Image.open(image_file_path)
+    img = img.resize((300, 300), Image.ANTIALIAS)  # Adjust the size as needed
+    photo = ImageTk.PhotoImage(img)
+    image_label.config(image=photo)
+    image_label.image = photo
+
+def get_histogram():
+    projectdir = orm_folder.get()
+    projdir = projectdir
+    stack_file = sorted([f for f in os.listdir(projectdir) if f.startswith("stack")])[0]
+    
+    print("Loading stack...")
+    stack = nxload(projectdir + stack_file)
+    nxsetmemory(100000)
+    
+    Iall = stack.data.counts.nxdata[stack.data.counts.nxdata > 1000]
+    peaksmax=np.max(Iall)
+    # Plotting the histogram on a y log scale with 20 bins
+    fig = plt.figure(figsize=(2,2),dpi=180)
+    ax = fig.add_axes([0,0,1,1])
+    ax.hist(Iall/peaksmax, bins=20, color='blue', edgecolor='black')
+    plt.yscale('log')  # Set y-axis to log scale
+    
+    # Adding labels and title
+    plt.xlabel('$I/I_{max}$')
+    plt.ylabel('# peaks (log scale)')
+    plt.title('Histogram of Pixel Intensities')
+    
+    # Save the plot as an image file
+    plt.savefig(projdir + 'histogram.png', bbox_inches='tight', dpi=300)
+    del Iall
+    del stack
+    gc.collect()
+    refresh_image()
 
 # Create the main window
 root = tk.Tk()
@@ -537,6 +589,12 @@ separator_horizontal1 = ttk.Separator(root, orient="horizontal")
 separator_horizontal1.grid(row=row, column=0, columnspan=3, sticky="ew", pady=10)
 row += 1
 
+# Create button to call get_peaklist function
+get_peaklist_button = tk.Button(root, text="Generate peak histogram", command=get_histogram)
+get_peaklist_button.grid(row=row, column=0, columnspan=2, pady=10, padx=5, sticky=tk.W)
+hist_row=row
+row+=1
+
 # Create labels and entry widgets for parameters
 tk.Label(root, text="Minimum # peaks:").grid(row=row, column=0, pady=5, padx=5, sticky=tk.E)
 lower_bound = tk.DoubleVar(value=50)
@@ -564,6 +622,7 @@ get_peaklist_button.grid(row=row, column=0, columnspan=2, pady=10, padx=5, stick
 row+=1
 
 tk.Label(root, text="Warning: This may take a minute to load!").grid(row=row, column=0, pady=5, padx=5, sticky=tk.E)
+end_hist_row = row
 row+=1
 
 # Add a label to display the number of peaks found
@@ -640,6 +699,16 @@ row += 1
 orient_button = tk.Button(root, text="Solve orientation matrix", command=orient)
 orient_button.grid(row=row, column=0, columnspan=2, pady=10, padx=5, sticky=tk.W)
 row+=1
+
+
+# Create a label to display the image
+image_label = tk.Label(root)
+image_label.grid(row=hist_row, column=2, rowspan=end_hist_row-hist_row, pady=10, padx=5, sticky=tk.W)
+row=hist_row
+# Create a button to refresh the image
+refresh_button = tk.Button(root, text="Refresh Image", command=refresh_image)
+refresh_button.grid(row=hist_row, column=1, pady=10, padx=5, sticky=tk.E)
+
 
 
 
