@@ -74,9 +74,9 @@ def get_peaklist(projectdir,stack_file,valmin,valmax,lower_bound,upper_bound):
 
 
 
-        #print(listofpeaks.shape)
-        #for i in range(0,len(listofpeaks)):
-        #	print(np.asarray(listofpeaks[i]))
+        print(listofpeaks.shape)
+        for i in range(0,len(listofpeaks)):
+        	print(np.asarray(listofpeaks[i]))
         peaksout=projdir+"peaklist1"
         while os.path.exists(peaksout):
             peaklistnum=int(outfile[-5:-4])
@@ -145,9 +145,9 @@ def get_peaklist(projectdir,stack_file,valmin,valmax,lower_bound,upper_bound):
 
 
 
-        #print(listofpeaks.shape)
-        #for i in range(0,len(listofpeaks)):
-        #	print(np.asarray(listofpeaks[i]))
+        print(listofpeaks.shape)
+        for i in range(0,len(listofpeaks)):
+        	print(np.asarray(listofpeaks[i]))
         peaksout=projdir+"peaklist1"
         while os.path.exists(peaksout):
             peaklistnum=int(outfile[-5:-4])
