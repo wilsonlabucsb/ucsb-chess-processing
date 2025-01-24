@@ -34,9 +34,8 @@ Lstep=float(sys.argv[8])
 
 
 nxsetmemory(100000)
-stack1,stack2,stack3 = sorted([workingdir+f for f in os.listdir(workingdir) if f.startswith("stack")])
-#stack2=nxload(workingdir+"stack2.nxs")
-#stack3=nxload(workingdir+"stack3.nxs")
+stack1 = [workingdir+f for f in os.listdir(workingdir) if f.startswith("stack")][0]
+stack1 = [nxload(stack_name) for stack_name in stack_names][0]
 
 #load the orientation info
 ormat=nxload(ormdir+"ormatrix_auto.nxs")
