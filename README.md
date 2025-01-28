@@ -11,3 +11,5 @@ A separate script is used to watch the queue stored in the job file for commands
 ```
   > python start_queue.py
 ```
+
+![tkinter_chess_queue](app_screenshot.png)
