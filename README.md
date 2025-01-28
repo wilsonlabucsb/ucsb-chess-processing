@@ -5,3 +5,9 @@ This repository contains a working version of the code used by the Wilson Lab at
 ```
   > python tkinter_chess_queue.py
 ```
+
+A separate script is used to watch the queue stored in the job file for commands, which can be run using:
+
+```
+  > python start_queue.py
+```
