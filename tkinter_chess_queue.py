@@ -310,7 +310,7 @@ frame_column4 = tk.Frame(root)
 frame_column4.grid(row=0, column=6, pady=10, padx=5, sticky=tk.N)
 
 row = 0
-tk.Label(frame_column4, text="Indexing Queue:").grid(row=row, column=0, padx=5, pady=10, sticky=tk.W)
+tk.Label(frame_column4, text="Job Queue:").grid(row=row, column=0, padx=5, pady=10, sticky=tk.W)
 row += 1
 
 # Create a Listbox for the indexing queue
