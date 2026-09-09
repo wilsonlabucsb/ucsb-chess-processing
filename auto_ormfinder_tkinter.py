@@ -446,9 +446,14 @@ def check_peaklist(projectdir,UBRfinal,w,wl):
     printconvpeaks(peaklist,wl,UBRfinal.T,eta,mu,chi)
 
 def save_orm(projectdir,UBRfinal,uca,ucb,ucc,ucal,ucbe,ucga):
-    ormout=projectdir+"ormatrix_auto.nxs"
+    ormout = os.path.join(projectdir, "ormatrix_auto.nxs")
+    index = 1
+    while os.path.exists(ormout) or os.path.exists(ormout + ".npy"):
+        ormout = os.path.join(projectdir, f"ormatrix_auto_{index}.nxs")
+        index += 1
     dpsi=0.0
 
+    print(f"Saving orientation matrix to {ormout}")
     print(UBRfinal.ravel().tolist())
     np.save(ormout,UBRfinal)
 
